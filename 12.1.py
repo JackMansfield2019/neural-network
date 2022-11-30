@@ -79,7 +79,7 @@ while t < 1:
     for l in range (0,L):# - exlusive on the last one
         print("layer: {}".format(l))
         signal = np.matmul(np.transpose(weights[l]), np.insert(outputs[l], 0, 1,axis = 0) )#dont need to transpose since i store my matrix in a transposed state.
-        print signal
+        print(signal)
         signals.append(signal)
         if l != L: #hidden layer
             signal = theta(signal, 0)
@@ -93,7 +93,7 @@ while t < 1:
     print("outputs:")
     print(outputs)
     print("signals:")
-    print signals
+    print(signals)
     #deltas = np.zeros(shape = (L,1))#0,1,2 ... L-1
     deltas = []
     for i in range(L):
@@ -116,10 +116,10 @@ while t < 1:
     for l in range (0,L):# should i be updating the weights as i go backward like how i compute gradients or forward?
         weights[l] = weights[l] - np.dot(learning_rate,gradients[l])
     '''
-    print "gradients:"
+    print("gradients:")
     for g in gradients:
-        print g
-        print ""
+        print (g)
+        print ("")
     #print "gradients:"
     #print gradients
     t += 1

@@ -14,7 +14,6 @@ def sign(signal):
         return -1
 
 def theta(signal,user_input):
-    print(signal)
     ans = signal
     for i in range(len(signal)):
         if user_input == 1:
@@ -40,61 +39,74 @@ def deaugment(weights):
         i -= 1
     return deaugmented_weights
 #----------------------------------MAIN----------------------------------
-m = input("specify m: ")
-user_input = input("final layer transformations:\n1. identity\n2. tanh\n3. sign\nenter selection: ")
+m = int(input("specify m: "))
+user_input = int(input("final layer transformations:\n1. identity\n2. tanh\n3. sign\nenter selection: "))
+
+#specifying the architecture of the network
 DL = [2,m,1]
-#print("length of DL")
-#print(len(DL))
+
+#setting the number of layers 
 L = len(DL) - 1
+
+#initializing the first layer 
 x_mat = np.ones(shape = (2,1))
 x_mat[0][0] = 1.0
 x_mat[1][0] = 2.0
 
-#print(x_mat)
+#initializing the y values for the traning set
 y_mat = np.ones(shape = (1,1))
 y_mat[0][0] = 1.0
-#going from 0 .. L -1 L elements
+
+#initlizlize the weights for each layer
 weights = []
 i = 0
 while i < L:
     w0 = np.ones(shape = (DL[i]+1,DL[i+1]))
-    for j in range(DL[i]+1): #for every colum
+    for j in range(DL[i]+1): #for every column
         for k in range(DL[i+1]): #for every Row
-            w0[j][k] = 0.25
+            w0[j][k] = 0.25 # initlaize it with all weights == 0.25
     weights.append(w0)
     i += 1
 
-
-#print("weights")
-#print(weights)
-
+#initialize outputs of each layer
 outputs = []
+#initalize outputs with the inputs to the first layer.
 outputs.append(x_mat)
+
+#initlizize the array of signals generated for each layer
 signals = []
 learning_rate = 0.1
 t = 0
-#dont save with the augmented one!!!!
 while t < 1:
-    #print("---------forward propogation---------")
-    for l in range (0,L):# - exlusive on the last one
-        #print("layer: {}".format(l))
-        signal = np.matmul(np.transpose(weights[l]), np.insert(outputs[l], 0, 1,axis = 0) )#dont need to transpose since i store my matrix in a transposed state.
-        #print signal
+    print("---------forward propogation---------")
+    print("layer 0:")
+    print(outputs[0])
+    for l in range (0,L):
+        print()
+        print("layer ",l+1,":")
+        signal = np.matmul(np.transpose(weights[l]), np.insert(outputs[l], 0, 1,axis = 0) )
+        print("Input:")
+        print(signal)
         signals.append(signal)
         if l != L-1: #hidden layer
             signal = theta(signal, 0)
         else: # final layer swtich to using user inputed transformation
             signal = theta(signal, user_input) # retruns a numpyarray of values  
         outputs.append(signal)  # do not add a augmented one on the final output
-        #outputs.append(np.insert(signal, 0, 1))   
-        print outputs
-    
-    #print("---------backward propogation---------")
-    #print("outputs:")
-    #print(outputs)
-    #print("signals:")
-    #print signals
-    #deltas = np.zeros(shape = (L,1))#0,1,2 ... L-1
+        print()
+        print("output:")
+        #add an augmented one for costmetic purposes
+
+        tmp = np.ones(shape = (len(signal)+1,1))
+        for i in range(len(signal)+1):
+            if i == 0:
+                tmp[i] = np.ones(shape=(1,))
+            else:
+                tmp[i] = signal[i-1]
+        print(tmp)
+        
+    print()
+    print("---------backward propogation---------")
     deltas = []
     for i in range(L):
         deltas.append(0) 
@@ -102,36 +114,20 @@ while t < 1:
         deltas[L-1] = 2 * (outputs[L] - y_mat) * 1
     else:
         deltas[L-1] = 2 * (outputs[L] - y_mat) * (1 - math.pow(outputs[L],2))
-    print "deltas"
-    print deltas
+    #print()
+    #print("deltas")
+    #print(deltas)
+    #print()
     gradients = []
     gradients.append( np.dot(0.25,np.matmul(np.insert(outputs[L-1],0,1,axis = 0), np.transpose(deltas[L-1])) ))
     l = L - 2
     while l > -1:
-        #stopping here need to figure out how to do the derrvitive of theta
-        #print("l = {}".format(l))
         deltas[l] = np.multiply(1 - np.multiply(outputs[l+1],outputs[l+1]),np.matmul(deaugment(weights[l+1]),deltas[l+1]))
         gradients.insert(0,np.dot(0.25,np.matmul(np.insert(outputs[l],0,1,axis = 0), np.transpose(deltas[l]))) )
         l -= 1
-    '''
-    for l in range (0,L):# should i be updating the weights as i go backward like how i compute gradients or forward?
-        weights[l] = weights[l] - np.dot(learning_rate,gradients[l])
-    '''
     
-    print "gradients:"
+    print ("gradients:")
     for g in gradients:
-        print g
-        print ""
+        print(g)
+        print("")
     t += 1
-
-
-'''
-questoins for mentor
-are my gradients correct
-how do i calculate 1b
-is my run time for part 2 correct?
-what is a linear transformation function?
-replace my ein with 
-
-'''
-
