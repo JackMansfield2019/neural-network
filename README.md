@@ -65,14 +65,27 @@ Using the Neural Network Model from the previous part create a classifier to sep
   <img src="https://user-images.githubusercontent.com/25088039/204706829-8d41a023-dedd-4154-a369-a52d901b2caf.JPG?row=true" width="500" height="200">
 </p>
 
-I choose to use the features of intensity and symmetry, where symmetry in this case means the whether the image is verticaly symmetrical. Let $f(i,j)$ denotes the grayscale values from $-1$ to $1$ for pixel $(i,j)$ as given. And $i,j$ ranges from $1$ to $16$.
+I chose to use the features of intensity and symmetry, where symmetry in this case means the whether the image is verticaly symmetrical. Let $f(i,j)$ denotes the grayscale values from $-1$ to $1$ for pixel $(i,j)$ as given. And $i,j$ ranges from $1$ to $16$.
 
 Then the intensity is defined as: $\displaystyle I_{avg} = \frac{1}{256}\sum_{i = 1}^{16} \sum_{i = 1}^{16} f(i,j)$
 
 And the symmetry is defined as:  $\displaystyle I_{sym} = \frac{1}{256}\times\frac{1}{256}\sum_{i = 1}^{16} \sum_{i = 1}^{16} |f(i,j)-f(17-i,j)|$
 
-Using the Neural Network Model developed in the previous part to create this classifier, with $m=10$, and all active functions being sigmoids. I use Intensity and Asymmetry as the $X1$ and $X2$ input, with $N=300$. I then compute $$E_{in}(w) = \frac{1}{300}\sum^{300}_{n=1}(h(x_n,w)-y_n)^2$$ using a max iteration of $2\times 10^{6}$ and $S(x) = x$, the decision boundary at  our max iteration and the iteration errors along the way are shown as follows:
+Using the Neural Network Model developed in the previous part to create this classifier, with $m=10$, and all active functions being sigmoids. I use Intensity and Asymmetry as the $X1$ and $X2$ input, with $N=300$. I then compute $$E_{in}(w) = \frac{1}{300}\sum^{300}_{n=1}(h(x_n,w)-y_n)^2$$ using a max iteration of $1\times 10^{6}$ and $S(x) = x$, the decision boundary at  our max iteration and the iteration errors along the way are shown as follows:
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/25088039/205396195-8529ec55-f034-44fb-897e-80f720f1b2f0.JPG?row=true" width="392.8" height="300">
+  <img src="https://user-images.githubusercontent.com/25088039/205396216-75d383a0-136c-459f-a5e8-71e56f1c7d55.JPG?row=true" width="400" height="300">
+</p>
 
+# Neural Network with Validation
 
-  
+I then separated my set of 300 data points into a validation set of size 50 and training set of size 250, so $\D E_{val}(w) = \frac{1}{50}\sum_{n=1}^{50}(\hat{y_n} \neq y_n)$, I then counted the number of misclassified data within the 50 validation dataset. The minimum $E_{val}(w)$ occurs at iteration $423$ before it goes up again (shown in red curve $Figure$ $4(b)$), in which stopped the iteration, the resulting boundary and the Validation error are shown as follows:
+
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/25088039/205403361-7f9a2a13-d45b-40ba-ae1d-3e4c95e2f186.JPG?row=true" width="358" height="300">
+   <img src="https://user-images.githubusercontent.com/25088039/205403379-ffa21772-eb9a-474c-963a-9fab6de1ff91.JPG?row=true" width="400" height="300">
+</p>
+ <p align="center">
+  Figure 4: $S(x) = x$, Stopping Iteration at iteration $423$
+</p>
