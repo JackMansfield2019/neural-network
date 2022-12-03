@@ -26,12 +26,8 @@ A program to implement neural networks and gradient descent using backpropagatio
 <p align="center">
   Figure 1: 2-input, 2-hidden layer, 1-output Neural network 
 </p>
-
-### Usage 
-    Python3 Simple_Neural_Network.py
     
-    
-# Results
+### Results
 
 
 the gradient of Ein(w) using the backpropagation algorithm using a network where m = 2, all the weights equal to 0.25 and a data set with 1 point: x1 =[1,2]; y = 1
@@ -49,6 +45,9 @@ Output with tanh transformation: θ(s) = tanh(s):
 <p align="center">
 <img src="https://user-images.githubusercontent.com/25088039/204704453-439c1dcb-ef90-420e-8607-208815b6358c.JPG?row=true" width="300" height="440">
 </p>
+
+### Usage 
+    Python3 Simple_Neural_Network.py
 
 # Numerical_Gradient_Calulation
 
