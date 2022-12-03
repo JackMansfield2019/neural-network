@@ -3,9 +3,9 @@
 
 **Numerical_Gradient_Calulation.py:** Program to numerically obtain gradients from the simple nueral network, used to check that the Network is working correctly
 
-**Handwriting_Neural_Network.py:** Program using a Neural Network Model to create a classifier to seperate handwritten "1" digits from "5" digits:
+**Handwriting_Neural_Network.py:** Program using a Neural Network Model to create a classifier to seperate handwritten "1" digits from "5" digits
 
-**Handwriting_Neural_Network_With_Validation.py:** Program Implmenting the previous Neural Network Model with a Validation set of size 50 to test the model with.
+**Handwriting_Neural_Network_With_Validation.py:** Program Implmenting the previous Neural Network Model with early stopping with a validation set of size 50 and training set of size 250
 
 # Simple_Neural_Network
 
